@@ -39,9 +39,15 @@ something you don't expect when you retrieve it from the cache the next time.
 
 use JSON ();
 use Moose::Role;
+use MooseX::ClassAttribute;
 
-my %objectpool;
 my $json;
+
+class_has _instances => (
+    is      => 'ro',
+    isa     => 'HashRef',
+    default => sub { { } },
+);
 
 =method instance
 
@@ -66,7 +72,7 @@ sub instance {
     my ($class, @args) = @_;
 
     my $key = $class->normalizer(@args);
-    return $objectpool{$key} ||= $class->new(@args);
+    return $class->_instances->{$key} ||= $class->new(@args);
 }
 
 =method normalizer

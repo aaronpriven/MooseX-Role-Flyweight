@@ -59,12 +59,8 @@ isnt(
     'instance() and new() equivalent instances are different'
 );
 
-TODO: {
-    local $TODO = 'not implemented';
-
-    isnt(
-        Flyweight::Test1->instance(id => 123),
-        Flyweight::Test2->instance(id => 123),
-        'class caches are independent of each other'
-    );
-}
+isnt(
+    Flyweight::Test1->instance(id => 123),
+    Flyweight::Test2->instance(id => 123),
+    'class caches are independent of each other'
+);
