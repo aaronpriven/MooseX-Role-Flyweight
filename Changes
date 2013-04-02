@@ -1,5 +1,9 @@
 Revision history for MooseX-Role-Flyweight
 
+0.003   2013-04-02
+        Minor bug fixes
+        Add JSON::XS prerequisite recommendation
+
 0.002   2013-04-01
         Fixed distribution configuration and set $VERSION
 
