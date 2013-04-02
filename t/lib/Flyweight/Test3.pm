@@ -3,7 +3,7 @@ use Moose;
 
 with 'MooseX::Role::Flyweight';
 
-has id => ( is => 'ro', isa => 'Int', required => 1 );
+has 'id' => ( is => 'ro', isa => 'Int', required => 1 );
 
 # normalizer returns (id % 2)
 sub normalizer {

@@ -43,7 +43,7 @@ use MooseX::ClassAttribute;
 
 my $json;
 
-class_has _instances => (
+class_has '_instances' => (
     is      => 'ro',
     isa     => 'HashRef',
     default => sub { { } },

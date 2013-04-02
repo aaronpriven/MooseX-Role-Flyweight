@@ -3,7 +3,7 @@ use Moose;
 
 with 'MooseX::Role::Flyweight';
 
-has id => ( is => 'ro', isa => 'Int', required => 1 );
+has 'id' => ( is => 'ro', isa => 'Int', required => 1 );
 
 # constructor can accept id as a single value
 around BUILDARGS => sub {
