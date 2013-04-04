@@ -2,6 +2,7 @@ Revision history for MooseX-Role-Flyweight
 
 0.004   2013-04-03
         Add documentation to highlight differences with MooseX::Singleton
+        and notes on usage
 
 0.003   2013-04-02
         Minor bug fixes

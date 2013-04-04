@@ -86,6 +86,12 @@ something you don't expect when you retrieve it from the cache the next time.
     my $flight = Flight->instance(destination => 'Australia');
     die 'hypothermia' if $flight->destination eq 'Antarctica';
 
+TIP: Instances are identified for reuse based on the equivalency of the named
+parameters used for construction after they have passed through C<BUILDARGS>.
+Whether these parameters are actually used for construction is not taken into
+account. For this reason, you may want to use L<MooseX::StrictConstructor>
+in your consuming class to disallow such unused parameters.
+
 =cut
 
 use JSON ();
@@ -104,13 +110,17 @@ class_has '_instances' => (
 
     my $obj = MyClass->instance(%constructor_args);
 
-This class method retrieves the object from the cache for reuse,
-or constructs the object and stores it in the cache if it is not there already.
-The given arguments are those that are used by C<new()> to construct the object.
-They are also used to identify the object in the cache.
+This class method returns an instance that has been constructed
+from the given arguments.
+The first time it is called with a given set of arguments
+it will construct the object and cache it.
+On subsequent calls with the same set of arguments
+it will reuse the existing object by retrieving it from the cache.
 
-The arguments may be in any form that C<new()> will accept.
-This is normally a hash or hash reference of named parameters.
+The arguments are those that are used by C<new()> to construct the object.
+They are also used to identify the object in the cache.
+They may be in any form that C<new()> will accept, which is normally
+a hash or hash reference of named parameters.
 Non-hash(ref) arguments are also possible if you have defined your own
 C<BUILDARGS> class method to handle them (see L<Moose::Manual::Construction>).
 
@@ -130,9 +140,9 @@ sub instance {
 
     my $obj_key = MyClass->normalizer(%constructor_args);
 
-A class method that accepts the arguments used for construction
+This class method accepts the arguments used for construction
 and returns a string representation of those arguments.
-This string representation is used by C<instance()> as the key to identify
+The string representation is used by C<instance()> as the key to identify
 an object for storage and retrieval in the cache.
 The hash keys in a hash(ref) argument will be sorted, which means that it will
 always produce the same string for equivalent named parameters regardless of
