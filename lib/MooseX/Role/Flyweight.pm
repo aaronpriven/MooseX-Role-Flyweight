@@ -75,13 +75,13 @@ new instances when it finds that it cannot reuse an existing one.
 
 =cut
 
-use JSON ();
+use JSON 2.00 (); # works with JSON::XS
 use Moose::Role;
-use MooseX::ClassAttribute;
+use MooseX::ClassAttribute 0.23; # works with roles
 use namespace::autoclean;
 use Scalar::Util ();
 
-my $json;
+my $json = JSON->new->utf8->canonical;
 
 class_has '_instances' => (
     is      => 'ro',
@@ -144,11 +144,9 @@ It does not handle blessed references as arguments.
 =cut
 
 sub normalizer {
-    my ($class, @args) = @_;
+    my $class = shift;
+    my $args = $class->BUILDARGS(@_);
 
-    $json ||= JSON->new->utf8->canonical;
-
-    my $args = $class->BUILDARGS(@args);
     return $json->encode($args);
 }
 
