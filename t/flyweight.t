@@ -1,7 +1,7 @@
 #!/usr/bin/perl -T
 use strict;
 use warnings;
-use Test::More tests => 14;
+use Test::More tests => 15;
 use Test::Fatal;
 use lib 't/lib';
 
@@ -64,3 +64,14 @@ isnt(
     Flyweight::Test2->instance(id => 123),
     'class caches are independent of each other'
 );
+
+subtest 'cached references are weak' => sub {
+    my %args = (id => 123);
+    my $key  = Flyweight::Test1->normalizer(%args);
+
+    my $obj = Flyweight::Test1->instance(%args);
+    ok defined Flyweight::Test1->_instances->{$key}, 'cached ref exists';
+
+    undef $obj;
+    ok ! defined Flyweight::Test1->_instances->{$key}, 'cached ref discarded';
+};

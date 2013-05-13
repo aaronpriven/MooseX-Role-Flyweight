@@ -8,6 +8,9 @@ use_ok 'MooseX::Role::Flyweight';
 use_ok 'Flyweight::Test3';
 
 subtest 'normalize equivalent' => sub {
+    # prevent garbage collection
+    my $obj = Flyweight::Test3->instance(id => 123);
+
     is(
         Flyweight::Test3->normalizer(id => 123),
         Flyweight::Test3->normalizer({id => 135}),
