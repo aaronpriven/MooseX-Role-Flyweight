@@ -1,9 +1,18 @@
 #!/usr/bin/perl -T
+
 use strict;
 use warnings;
+
 use Test::More tests => 15;
 use Test::Fatal;
-use lib 't/lib';
+
+# add t/lib to @INC
+use File::Spec::Functions qw(catdir rel2abs);
+use File::Basename 'dirname';
+
+my $lib;
+BEGIN { $lib = catdir( dirname(rel2abs $0), 'lib' ) }
+use lib $lib;
 
 use_ok 'MooseX::Role::Flyweight';
 use_ok 'Flyweight::Test1';
@@ -11,11 +20,13 @@ use_ok 'Flyweight::Test2';
 
 isa_ok(
     Flyweight::Test1->instance,
-    'Flyweight::Test1', 'handles no args'
+    'Flyweight::Test1',
+    'handles no args'
 );
 isa_ok(
     Flyweight::Test1->instance(id => 123, value => 'simple'),
-    'Flyweight::Test1', 'handles simple args'
+    'Flyweight::Test1',
+    'handles simple args'
 );
 is(
     Flyweight::Test1->instance(id => 123),
@@ -29,12 +40,14 @@ is(
 );
 is(
     Flyweight::Test2->instance(id => 123),
-    Flyweight::Test2->instance(123), 'handles non-hash arg via BUILDARGS'
+    Flyweight::Test2->instance(123),
+    'handles non-hash arg via BUILDARGS'
 );
 
 is(
     Flyweight::Test1->instance(id => 123),
-    Flyweight::Test1->instance(id => 123), 'same args returns same instance'
+    Flyweight::Test1->instance(id => 123),
+    'same args returns same instance'
 );
 isnt(
     Flyweight::Test1->instance(id => 123),
