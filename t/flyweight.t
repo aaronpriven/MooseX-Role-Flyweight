@@ -6,13 +6,7 @@ use warnings;
 use Test::More tests => 15;
 use Test::Fatal;
 
-# add t/lib to @INC
-use File::Spec::Functions qw(catdir rel2abs);
-use File::Basename 'dirname';
-
-my $lib;
-BEGIN { $lib = catdir( dirname(rel2abs $0), 'lib' ) }
-use lib $lib;
+use lib 't/lib';
 
 use_ok 'MooseX::Role::Flyweight';
 use_ok 'Flyweight::Test1';
