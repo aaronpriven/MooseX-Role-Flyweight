@@ -1,5 +1,8 @@
 Revision history for MooseX-Role-Flyweight
 
+0.007   2013-08-22
+        Documentation adjustments
+
 0.006   2013-05-17
         Fix tests with insecure dependency in taint mode
 
