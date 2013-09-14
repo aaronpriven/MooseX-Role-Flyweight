@@ -62,8 +62,8 @@ MooseX::Role::Flyweight is used to facilitate the reuse of objects to reduce
 the cost of having many instances. The number of instances created will be
 reduced, but it does not set a limit on how many instances are allowed. Its
 C<instance()> method does accept construction arguments because it is
-responsible for managing the construction of new instances when it finds that
-it cannot reuse an existing one.
+responsible for managing the construction of new instances when it finds
+that it cannot reuse an existing one.
 
 =end :list
 
@@ -180,8 +180,8 @@ Factors to consider when determining equivalency:
 * The order of named parameters does not affect equivalency.
 
 The keys in the hash(ref) are sorted, which means that the same string will
-always be produced for the same named parameters regardless of the order they
-are given.
+always be produced for the same named parameters regardless of the order
+they are given.
 
     # same object is returned
     $obj1 = My::Flyweight->instance( attr1 => 1, attr2 => 2 );
