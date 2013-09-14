@@ -69,6 +69,7 @@ it cannot reuse an existing one.
 
 =cut
 
+use 5.006;
 use JSON 2.00 (); # works with JSON::XS
 use Moose::Role;
 use MooseX::ClassAttribute 0.23; # works with roles
