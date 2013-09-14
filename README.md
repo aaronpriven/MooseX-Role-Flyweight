@@ -171,15 +171,19 @@ of scope.
     undef $obj;
     # $obj is garbage collected and disappears from the cache
 
+# AUTHOR
+
+Steven Lee <stevenwh.lee@gmail.com>
+
+# ACKNOWLEDGEMENTS
+
+Mark Stosberg (MARKSTOS) for suggesting to explain the difference to Singleton.
+
 # SEE ALSO
 
 [Perl Design Patterns](http://www.perl.com/pub/2003/06/13/design1.html)
 
 [Memoize](https://metacpan.org/module/Memoize)
-
-# AUTHOR
-
-Steven Lee <stevenwh.lee@gmail.com>
 
 # COPYRIGHT AND LICENSE
 

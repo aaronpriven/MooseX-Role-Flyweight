@@ -3,7 +3,7 @@ package MooseX::Role::Flyweight;
 
 =head1 SYNOPSIS
 
-Conpose MooseX::Role::Flyweight into your Moose class.
+Compose MooseX::Role::Flyweight into your Moose class.
 
     package Glyph::Character;
     use Moose;
@@ -222,6 +222,10 @@ of scope.
     # $obj is in the cache
     undef $obj;
     # $obj is garbage collected and disappears from the cache
+
+=head1 ACKNOWLEDGEMENTS
+
+Mark Stosberg (MARKSTOS) for suggesting to explain the difference to Singleton.
 
 =head1 SEE ALSO
 
