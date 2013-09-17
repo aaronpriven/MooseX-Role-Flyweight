@@ -4,11 +4,11 @@ MooseX::Role::Flyweight - Automatically memoize your Moose objects for reuse
 
 # VERSION
 
-version 0.007
+version 1.00
 
 # SYNOPSIS
 
-Conpose MooseX::Role::Flyweight into your Moose class.
+Compose MooseX::Role::Flyweight into your Moose class.
 
     package Glyph::Character;
     use Moose;
