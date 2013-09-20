@@ -1,4 +1,5 @@
 #!/usr/bin/perl -T
+# test a custom normalizer supplied by Flyweight::Test3
 
 use strict;
 use warnings;
@@ -8,8 +9,10 @@ use Test::Fatal;
 
 use lib 't/lib';
 
-use_ok 'MooseX::Role::Flyweight';
-use_ok 'Flyweight::Test3';
+BEGIN {
+    use_ok 'MooseX::Role::Flyweight';
+    use_ok 'Flyweight::Test3';
+}
 
 is(
     Flyweight::Test3->normalizer(id => 123),

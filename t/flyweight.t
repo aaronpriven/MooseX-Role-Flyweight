@@ -8,9 +8,11 @@ use Test::Fatal;
 
 use lib 't/lib';
 
-use_ok 'MooseX::Role::Flyweight';
-use_ok 'Flyweight::Test1';
-use_ok 'Flyweight::Test2';
+BEGIN {
+    use_ok 'MooseX::Role::Flyweight';
+    use_ok 'Flyweight::Test1';
+    use_ok 'Flyweight::Test2';
+}
 
 isa_ok(
     Flyweight::Test1->instance,
