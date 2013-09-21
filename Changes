@@ -1,5 +1,9 @@
 Revision history for MooseX-Role-Flyweight
 
+1.01    2013-09-22
+        Upgrade MooseX::ClassAttribute version prereq to 0.27 to work with
+        Moose 2.08+
+
 1.00    2013-09-17
         Promote to stable release.
 
