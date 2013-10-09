@@ -4,7 +4,7 @@ MooseX::Role::Flyweight - Automatically memoize your Moose objects for reuse
 
 # VERSION
 
-version 1.01
+version 1.02
 
 # SYNOPSIS
 

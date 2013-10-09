@@ -1,5 +1,9 @@
 Revision history for MooseX-Role-Flyweight
 
+1.02    2013-10-09
+        Change normalizer() to accept post-BUILARGS hashrefs so users don't
+        need to remember to do it. But it is still backwards compatible.
+
 1.01    2013-09-22
         Upgrade MooseX::ClassAttribute version prereq to 0.27 to work with
         Moose 2.08+
