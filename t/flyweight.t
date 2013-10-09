@@ -75,10 +75,10 @@ isnt(
 );
 
 subtest 'cached references are weak' => sub {
-    my %args = (id => 123);
-    my $key  = Flyweight::Test1->normalizer(%args);
+    my $args = { id => 123 };
+    my $key  = Flyweight::Test1->normalizer($args);
 
-    my $obj = Flyweight::Test1->instance(%args);
+    my $obj = Flyweight::Test1->instance($args);
     ok defined Flyweight::Test1->_instances->{$key}, 'cached ref exists';
 
     undef $obj;

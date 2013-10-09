@@ -37,17 +37,15 @@ has '_lazy_attr' => (
 );
 
 around 'normalizer' => sub {
-    my $orig  = shift;
-    my $class = shift;
-    my $args  = $class->BUILDARGS(@_);
+    my ($orig, $class, $args) = @_;
 
     # handle invalid attributes
     my %attributes
-      = map  {$_->init_arg => undef}
-        grep {defined $_->init_arg}
+      = map  { $_->init_arg => undef }
+        grep { defined $_->init_arg  }
         $class->meta->get_all_attributes;
 
-    my @unknown = grep {! exists $attributes{$_}} keys %$args;
+    my @unknown = grep { ! exists $attributes{$_} } keys %$args;
     confess "Found unknown attribute(s): @unknown"
         if @unknown > 0;
 
