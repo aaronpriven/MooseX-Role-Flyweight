@@ -82,7 +82,7 @@ their intentions will highlight their differences:
 
 ## instance
 
-    $instance = My::Class->instance( %init_args );
+    $instance = My::Flyweight->instance( %init_args );
 
 This class method returns an instance that has been constructed from the given
 arguments. The first time it is called with a given set of arguments it will
@@ -99,13 +99,13 @@ get cached and therefore will never be returned by this method.
 
 ## normalizer
 
-    $instance_identifier_string = My::Class->normalizer( $init_args_hashref );
+    $instance_identifier_string = My::Flyweight->normalizer( $init_args_hashref );
 
 This class method generates the keys used by `instance()` to identify objects
 for storage and retrieval in the cache. It is passed the arguments used for
 construction as a hashref (after they have passed through `BUILDARGS`). It
 returns a string representation of those arguments as the key. Equivalent
-arguments will result in the same string.
+arguments should result in the same string.
 
 Note that this does not handle blessed references as arguments.
 
