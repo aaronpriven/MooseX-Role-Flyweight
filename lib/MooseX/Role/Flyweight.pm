@@ -149,7 +149,11 @@ method in your class that consumes this role.
 =cut
 
 sub normalizer {
-    my ($class, $args) = @_;
+    my $class = shift;
+    my $args = ( @_ > 1 || ref($_[0]) ne 'HASH' )
+        ? $class->BUILDARGS(@_)
+        : $_[0];
+
     return $json->encode($args);
 }
 
