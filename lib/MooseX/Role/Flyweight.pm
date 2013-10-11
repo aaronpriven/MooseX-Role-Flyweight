@@ -36,11 +36,12 @@ Get cached object instances by calling C<instance()> instead of C<new()>.
 
 =head1 DESCRIPTION
 
-"A million tiny objects can weigh a ton." Instead of creating a multitude of
-identical copies of objects, a flyweight is a memoized instance that may be
-reused in multiple contexts simultaneously to minimize memory usage. And due
-to the cost of constructing objects the reuse of flyweights has the potential
-to speed up your code.
+I<A million tiny objects can weigh a ton.>
+
+Instead of creating a multitude of identical copies of objects, a flyweight
+is a memoized instance that may be reused in multiple contexts simultaneously
+to minimize memory usage. And due to the cost of constructing objects the
+reuse of flyweights has the potential to speed up your code.
 
 MooseX::Role::Flyweight is a Moose role that enables your Moose class to
 automatically manage a cache of reusable instances. In other words, the class
@@ -82,17 +83,21 @@ that it cannot reuse an existing one.
 use 5.006;
 use JSON 2.00 (); # works with JSON::XS
 use Moose::Role;
-use MooseX::ClassAttribute 0.27;
 use namespace::autoclean;
 use Scalar::Util ();
 
-my $json = JSON->new->utf8->canonical;
+my $JSON = JSON->new->utf8->canonical;
 
-class_has '_instances' => (
-    is      => 'ro',
-    isa     => 'HashRef',
-    default => sub { { } },
-);
+my %Instances;
+
+sub _has_instance {
+    # """Internal method used for testing"""
+    my ($class, @args) = @_;
+    my $args = $class->BUILDARGS(@args);
+    my $key  = $class->normalizer($args);
+
+    return defined $Instances{ $class }{ $key };
+}
 
 =method instance
 
@@ -119,12 +124,13 @@ sub instance {
     my $key  = $class->normalizer($args);
 
     # return the existing instance
-    return $class->_instances->{$key} if defined $class->_instances->{$key};
+    return $Instances{ $class }{ $key }
+        if defined $Instances{ $class }{ $key };
 
     # create a new instance
     my $instance = $class->new(@args);
-    $class->_instances->{$key} = $instance;
-    Scalar::Util::weaken $class->_instances->{$key};
+    $Instances{ $class }{ $key } = $instance;
+    Scalar::Util::weaken $Instances{ $class }{ $key };
 
     return $instance;
 }
@@ -154,7 +160,7 @@ sub normalizer {
         ? $class->BUILDARGS(@_)
         : $_[0];
 
-    return $json->encode($args);
+    return $JSON->encode($args);
 }
 
 1;

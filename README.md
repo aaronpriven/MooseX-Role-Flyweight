@@ -41,11 +41,12 @@ Get cached object instances by calling `instance()` instead of `new()`.
 
 # DESCRIPTION
 
-"A million tiny objects can weigh a ton." Instead of creating a multitude of
-identical copies of objects, a flyweight is a memoized instance that may be
-reused in multiple contexts simultaneously to minimize memory usage. And due
-to the cost of constructing objects the reuse of flyweights has the potential
-to speed up your code.
+_A million tiny objects can weigh a ton._
+
+Instead of creating a multitude of identical copies of objects, a flyweight
+is a memoized instance that may be reused in multiple contexts simultaneously
+to minimize memory usage. And due to the cost of constructing objects the
+reuse of flyweights has the potential to speed up your code.
 
 MooseX::Role::Flyweight is a Moose role that enables your Moose class to
 automatically manage a cache of reusable instances. In other words, the class
