@@ -37,28 +37,27 @@ has '_lazy_attr' => (
 );
 
 around 'normalizer' => sub {
-    my ($orig, $class, $args) = @_;
+    my ( $orig, $class, $args ) = @_;
 
     # handle invalid attributes
-    my %attributes
-      = map  { $_->init_arg => undef }
-        grep { defined $_->init_arg  }
-        $class->meta->get_all_attributes;
+    my %attributes = map { $_->init_arg => undef }
+        grep { defined $_->init_arg } $class->meta->get_all_attributes;
 
-    my @unknown = grep { ! exists $attributes{$_} } keys %$args;
+    my @unknown = grep { !exists $attributes{$_} } keys %$args;
     confess "Found unknown attribute(s): @unknown"
         if @unknown > 0;
 
     # add default attribute values
-    foreach my $attr ($class->meta->get_all_attributes) {
-        $args->{ $attr->init_arg } = $attr->default if (
-            $attr->has_init_arg
+    foreach my $attr ( $class->meta->get_all_attributes ) {
+        $args->{ $attr->init_arg } = $attr->default
+            if (
+               $attr->has_init_arg
             && $attr->has_default
-            && ! defined $args->{ $attr->init_arg } # arg is already set
+            && !defined $args->{ $attr->init_arg }  # arg is already set
             && $attr->init_arg !~ /^\_/             # marked as private
-            && ! $attr->is_lazy                     # lazy needs obj to be built
-            && ! $attr->is_default_a_coderef
-        );
+            && !$attr->is_lazy                      # lazy needs obj to be built
+            && !$attr->is_default_a_coderef
+            );
     }
 
     return $class->$orig($args);

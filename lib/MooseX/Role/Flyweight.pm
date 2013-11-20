@@ -81,23 +81,14 @@ that it cannot reuse an existing one.
 =cut
 
 use 5.006;
-use JSON 2.00 (); # works with JSON::XS
+use JSON 2.00 ();  # works with JSON::XS
 use Moose::Role;
 use namespace::autoclean;
 use Scalar::Util ();
 
 my $JSON = JSON->new->utf8->canonical;
 
-my %Instances;
-
-sub _has_instance {
-    # """Internal method used for testing"""
-    my ($class, @args) = @_;
-    my $args = $class->BUILDARGS(@args);
-    my $key  = $class->normalizer($args);
-
-    return defined $Instances{ $class }{ $key };
-}
+our %INSTANCES;
 
 =method instance
 
@@ -119,18 +110,18 @@ get cached and therefore will never be returned by this method.
 =cut
 
 sub instance {
-    my ($class, @args) = @_;
+    my ( $class, @args ) = @_;
     my $args = $class->BUILDARGS(@args);
     my $key  = $class->normalizer($args);
 
     # return the existing instance
-    return $Instances{ $class }{ $key }
-        if defined $Instances{ $class }{ $key };
+    return $INSTANCES{$class}{$key}
+        if defined $INSTANCES{$class}{$key};
 
     # create a new instance
     my $instance = $class->new(@args);
-    $Instances{ $class }{ $key } = $instance;
-    Scalar::Util::weaken $Instances{ $class }{ $key };
+    $INSTANCES{$class}{$key} = $instance;
+    Scalar::Util::weaken $INSTANCES{$class}{$key};
 
     return $instance;
 }
@@ -155,10 +146,11 @@ method in your class that consumes this role.
 =cut
 
 sub normalizer {
-    my $class = shift;
-    my $args = ( @_ > 1 || ref($_[0]) ne 'HASH' )
-        ? $class->BUILDARGS(@_)
-        : $_[0];
+    my ( $class, @args ) = @_;
+    my $args =
+        ( @args > 1 || ref( $args[0] ) ne 'HASH' )
+        ? $class->BUILDARGS(@args)
+        : $args[0];
 
     return $JSON->encode($args);
 }

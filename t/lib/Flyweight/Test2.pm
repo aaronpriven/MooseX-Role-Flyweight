@@ -10,8 +10,8 @@ around BUILDARGS => sub {
     my $orig  = shift;
     my $class = shift;
     return @_ == 1 && !ref $_[0]
-         ? $class->$orig(id => $_[0])
-         : $class->$orig(@_);
+        ? $class->$orig( id => $_[0] )
+        : $class->$orig(@_);
 };
 
 __PACKAGE__->meta->make_immutable;
