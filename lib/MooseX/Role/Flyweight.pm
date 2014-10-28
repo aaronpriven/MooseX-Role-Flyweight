@@ -1,6 +1,11 @@
 package MooseX::Role::Flyweight;
 # ABSTRACT: Automatically memoize your Moose objects for reuse
 
+=for :badge
+=for html
+<a href="https://travis-ci.org/stevenl/MooseX-Role-Flyweight"><img src="https://travis-ci.org/stevenl/MooseX-Role-Flyweight.svg?branch=master" alt="Build Status"></a>
+<a href='https://coveralls.io/r/stevenl/MooseX-Role-Flyweight?branch=master'><img src='https://coveralls.io/repos/stevenl/MooseX-Role-Flyweight/badge.png?branch=master' alt='Coverage Status' /></a>
+
 =head1 SYNOPSIS
 
 Compose MooseX::Role::Flyweight into your Moose class.
