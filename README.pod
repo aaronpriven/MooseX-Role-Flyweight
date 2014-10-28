@@ -1,12 +1,14 @@
-# NAME
+=pod
+
+=head1 NAME
 
 MooseX::Role::Flyweight - Automatically memoize your Moose objects for reuse
 
-# VERSION
+=head1 VERSION
 
 version 1.03
 
-# SYNOPSIS
+=head1 SYNOPSIS
 
 Compose MooseX::Role::Flyweight into your Moose class.
 
@@ -27,7 +29,7 @@ Compose MooseX::Role::Flyweight into your Moose class.
         return $init_args->{c};
     }
 
-Get cached object instances by calling `instance()` instead of `new()`.
+Get cached object instances by calling C<instance()> instead of C<new()>.
 
     # the same initialisation arguments produces the same object
     $shared_object   = Glyph::Character->instance( %init_args );
@@ -39,9 +41,9 @@ Get cached object instances by calling `instance()` instead of `new()`.
     # new() still works but its objects are not shared
     $unshared_object = Glyph::Character->new( %init_args );
 
-# DESCRIPTION
+=head1 DESCRIPTION
 
-_A million tiny objects can weigh a ton._
+I<A million tiny objects can weigh a ton.>
 
 Instead of creating a multitude of identical copies of objects, a flyweight
 is a memoized instance that may be reused in multiple contexts simultaneously
@@ -52,10 +54,10 @@ MooseX::Role::Flyweight is a Moose role that enables your Moose class to
 automatically manage a cache of reusable instances. In other words, the class
 becomes its own flyweight factory.
 
-## Flyweight v. Singleton
+=head2 Flyweight v. Singleton
 
-MooseX::Role::Flyweight provides an `instance()` method which looks similar
-to [MooseX::Singleton](https://metacpan.org/module/MooseX::Singleton). This is in part because MooseX::Role::Flyweight
+MooseX::Role::Flyweight provides an C<instance()> method which looks similar
+to L<MooseX::Singleton>. This is in part because MooseX::Role::Flyweight
 departs from the original "Gang of Four" design pattern in that the role of
 the Flyweight Factory has been merged into the Flyweight class itself. But the
 choice of the method name was based on MooseX::Singleton.
@@ -63,25 +65,29 @@ choice of the method name was based on MooseX::Singleton.
 While MooseX::Role::Flyweight and MooseX::Singleton look similar, understanding
 their intentions will highlight their differences:
 
-- Singleton
+=over 4
 
-    MooseX::Singleton limits the number of instances allowed for that class to
-    ONE. For this reason, its `instance()` method does not accept construction
-    arguments and will always return the same instance. If arguments are required
-    for construction, then you will need to call its `initialize()` method.
+=item Singleton
 
-- Flyweight
+MooseX::Singleton limits the number of instances allowed for that class to
+ONE. For this reason, its C<instance()> method does not accept construction
+arguments and will always return the same instance. If arguments are required
+for construction, then you will need to call its C<initialize()> method.
 
-    MooseX::Role::Flyweight is used to facilitate the reuse of objects to reduce
-    the cost of having many instances. The number of instances created will be
-    reduced, but it does not set a limit on how many instances are allowed. Its
-    `instance()` method does accept construction arguments because it is
-    responsible for managing the construction of new instances when it finds
-    that it cannot reuse an existing one.
+=item Flyweight
 
-# METHODS
+MooseX::Role::Flyweight is used to facilitate the reuse of objects to reduce
+the cost of having many instances. The number of instances created will be
+reduced, but it does not set a limit on how many instances are allowed. Its
+C<instance()> method does accept construction arguments because it is
+responsible for managing the construction of new instances when it finds
+that it cannot reuse an existing one.
 
-## instance
+=back
+
+=head1 METHODS
+
+=head2 instance
 
     $instance = My::Flyweight->instance( %init_args );
 
@@ -90,21 +96,21 @@ arguments. The first time it is called with a given set of arguments it will
 construct the object and cache it. On subsequent calls with the equivalent set
 of arguments it will reuse the existing object by retrieving it from the cache.
 
-The arguments may be in any form that `new()` will accept. This is normally a
+The arguments may be in any form that C<new()> will accept. This is normally a
 hash or hash reference of named parameters. Non-hash(ref) arguments are also
-possible if you have defined your own `BUILDARGS` class method to handle them
-(see [Moose::Manual::Construction](https://metacpan.org/module/Moose::Manual::Construction)).
+possible if you have defined your own C<BUILDARGS> class method to handle them
+(see L<Moose::Manual::Construction>).
 
-Note that instances that are constructed by calling `new()` directly do not
+Note that instances that are constructed by calling C<new()> directly do not
 get cached and therefore will never be returned by this method.
 
-## normalizer
+=head2 normalizer
 
     $instance_identifier_string = My::Flyweight->normalizer( $init_args_hashref );
 
-This class method generates the keys used by `instance()` to identify objects
+This class method generates the keys used by C<instance()> to identify objects
 for storage and retrieval in the cache. It is passed the arguments used for
-construction as a hashref (after they have passed through `BUILDARGS`). It
+construction as a hashref (after they have passed through C<BUILDARGS>). It
 returns a string representation of those arguments as the key. Equivalent
 arguments should result in the same string.
 
@@ -115,9 +121,9 @@ you would want to know about this method is if you want to change the way it
 generates the cache keys, in which case you should wrap or override this
 method in your class that consumes this role.
 
-# NOTES ON USAGE
+=head1 NOTES ON USAGE
 
-## Flyweights should be immutable
+=head2 Flyweights should be immutable
 
 Your flyweight object attributes should be read-only. It is dangerous to have
 mutable flyweight objects because it means you may get something you don't
@@ -132,47 +138,64 @@ expect when you retrieve it from the cache the next time.
 
 Value objects are the type of objects that are suited as flyweights.
 
-## Argument normalization
+=head2 Argument normalization
 
 Instances are identified for reuse based on the equivalency of the named
-parameters used for construction as interpreted by `normalizer()`.
+parameters used for construction as interpreted by C<normalizer()>.
 
 Factors to consider when determining equivalency:
 
-- There is no distinction between hash and hashref (and non-hash) arguments.
+=over 4
 
-        # same object is returned
-        $obj1 = My::Flyweight->instance( attr => 'value' );
-        $obj2 = My::Flyweight->instance({attr => 'value'});
-- The order of named parameters does not affect equivalency.
+=item *
 
-    The keys in the hash(ref) are sorted, which means that the same string will
-    always be produced for the same named parameters regardless of the order
-    they are given.
+There is no distinction between hash and hashref (and non-hash) arguments.
 
-        # same object is returned
-        $obj1 = My::Flyweight->instance( attr1 => 1, attr2 => 2 );
-        $obj2 = My::Flyweight->instance( attr2 => 2, attr1 => 1 );
+    # same object is returned
+    $obj1 = My::Flyweight->instance( attr => 'value' );
+    $obj2 = My::Flyweight->instance({attr => 'value'});
 
-On the other hand, `normalizer()` does not handle:
+=item *
 
-- Unused construction parameters.
+The order of named parameters does not affect equivalency.
 
-    You can use [MooseX::StrictConstructor](https://metacpan.org/module/MooseX::StrictConstructor) to prevent this.
+The keys in the hash(ref) are sorted, which means that the same string will
+always be produced for the same named parameters regardless of the order
+they are given.
 
-        # different objects with same values returned
-        $obj1 = My::Flyweight->instance( attr => 'value' );
-        $obj2 = My::Flyweight->instance( attr => 'value', unused_attr => 'value' );
+    # same object is returned
+    $obj1 = My::Flyweight->instance( attr1 => 1, attr2 => 2 );
+    $obj2 = My::Flyweight->instance( attr2 => 2, attr1 => 1 );
 
-- Default attribute values.
+=back
 
-    You can extend/override `normalizer()` to handle this if you wish.
+On the other hand, C<normalizer()> does not handle:
 
-        # different objects with same values returned
-        $obj1 = My::Flyweight->instance( attr1 => 'value' );
-        $obj2 = My::Flyweight->instance( attr1 => 'value', attr2 => 'default' );
+=over 4
 
-## Garbage collection of cached objects
+=item *
+
+Unused construction parameters.
+
+You can use L<MooseX::StrictConstructor> to prevent this.
+
+    # different objects with same values returned
+    $obj1 = My::Flyweight->instance( attr => 'value' );
+    $obj2 = My::Flyweight->instance( attr => 'value', unused_attr => 'value' );
+
+=item *
+
+Default attribute values.
+
+You can extend/override C<normalizer()> to handle this if you wish.
+
+    # different objects with same values returned
+    $obj1 = My::Flyweight->instance( attr1 => 'value' );
+    $obj2 = My::Flyweight->instance( attr1 => 'value', attr2 => 'default' );
+
+=back
+
+=head2 Garbage collection of cached objects
 
 The cache uses weak references to the objects so that the cache references
 do not prevent the objects from being garbage collected. This means that an
@@ -184,24 +207,25 @@ of scope.
     undef $obj;
     # $obj is garbage collected and disappears from the cache
 
-# AUTHOR
+=head1 AUTHOR
 
 Steven Lee <stevenwh.lee@gmail.com>
 
-# ACKNOWLEDGEMENTS
+=head1 ACKNOWLEDGEMENTS
 
 Thanks to Mark Stosberg (MARKSTOS) for suggesting to explain the difference
 between MooseX::Role::Flyweight and MooseX::Singleton.
 
-# SEE ALSO
+=head1 SEE ALSO
 
-[Perl Design Patterns](http://www.perl.com/pub/2003/06/13/design1.html)
+L<Perl Design Patterns|http://www.perl.com/pub/2003/06/13/design1.html>
 
-[Memoize](https://metacpan.org/module/Memoize)
+L<Memoize>
 
-# COPYRIGHT AND LICENSE
+=head1 COPYRIGHT AND LICENSE
 
 This software is copyright (c) 2014 by Steven Lee.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
+
