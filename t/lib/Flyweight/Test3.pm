@@ -1,6 +1,6 @@
 package Flyweight::Test3;
-use Moose;
-with 'MooseX::Role::Flyweight';
+use Mouse;
+with 'MouseX::Role::Flyweight';
 
 has id => (
     is       => 'ro',
@@ -51,12 +51,12 @@ around normalizer => sub {
     foreach my $attr ( $class->meta->get_all_attributes ) {
         $args->{ $attr->init_arg } = $attr->default
             if (
-               $attr->has_init_arg
+               defined $attr->init_arg
             && $attr->has_default
             && !defined $args->{ $attr->init_arg }  # arg is already set
             && $attr->init_arg !~ /^\_/             # marked as private
             && !$attr->is_lazy                      # lazy needs obj to be built
-            && !$attr->is_default_a_coderef
+            && ref $attr->default ne 'CODE'
             );
     }
 

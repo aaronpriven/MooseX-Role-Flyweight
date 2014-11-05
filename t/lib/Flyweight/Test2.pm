@@ -1,6 +1,6 @@
 package Flyweight::Test2;
-use Moose;
-with 'MooseX::Role::Flyweight';
+use Mouse;
+with 'MouseX::Role::Flyweight';
 
 has id => ( is => 'ro', isa => 'Int', required => 1 );
 

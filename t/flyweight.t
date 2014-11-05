@@ -9,7 +9,7 @@ use Test::Fatal;
 use lib 't/lib';
 
 BEGIN {
-    use_ok 'MooseX::Role::Flyweight';
+    use_ok 'MouseX::Role::Flyweight';
     use_ok 'Flyweight::Test1';
     use_ok 'Flyweight::Test2';
 }
@@ -19,7 +19,7 @@ sub _has_instance {
     my $args = $class->BUILDARGS(@args);
     my $key  = $class->normalizer($args);
 
-    return defined $MooseX::Role::Flyweight::INSTANCES{$class}{$key};
+    return defined $MouseX::Role::Flyweight::INSTANCES{$class}{$key};
 }
 
 isa_ok( Flyweight::Test1->instance, 'Flyweight::Test1', 'handles no args' );

@@ -10,7 +10,7 @@ use Test::Fatal;
 use lib 't/lib';
 
 BEGIN {
-    use_ok 'MooseX::Role::Flyweight';
+    use_ok 'MouseX::Role::Flyweight';
     use_ok 'Flyweight::Test3';
 }
 

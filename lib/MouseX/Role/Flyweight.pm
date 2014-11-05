@@ -1,18 +1,18 @@
-package MooseX::Role::Flyweight;
-# ABSTRACT: Automatically memoize your Moose objects for reuse
+package MouseX::Role::Flyweight;
+# ABSTRACT: Automatically memoize your Mouse objects for reuse
 
 =for :badge
 =for html
-<a href="https://travis-ci.org/stevenl/MooseX-Role-Flyweight"><img src="https://travis-ci.org/stevenl/MooseX-Role-Flyweight.svg?branch=master" alt="Build Status"></a>
-<a href='https://coveralls.io/r/stevenl/MooseX-Role-Flyweight?branch=master'><img src='https://coveralls.io/repos/stevenl/MooseX-Role-Flyweight/badge.png?branch=master' alt='Coverage Status' /></a>
+<a href="https://travis-ci.org/stevenl/MooseX-Role-Flyweight"><img src="https://travis-ci.org/stevenl/MooseX-Role-Flyweight.svg?branch=MouseX-Role-Flyweight" alt="Build Status"></a>
+<a href='https://coveralls.io/r/stevenl/MooseX-Role-Flyweight?branch=MouseX-Role-Flyweight'><img src='https://coveralls.io/repos/stevenl/MooseX-Role-Flyweight/badge.png?branch=MouseX-Role-Flyweight' alt='Coverage Status' /></a>
 
 =head1 SYNOPSIS
 
-Compose MooseX::Role::Flyweight into your Moose class.
+Compose MouseX::Role::Flyweight into your Mouse class.
 
     package Glyph::Character;
-    use Moose;
-    with 'MooseX::Role::Flyweight';
+    use Mouse;
+    with 'MouseX::Role::Flyweight';
 
     has 'c' => ( is => 'ro', required => 1 );
 
@@ -48,19 +48,19 @@ is a memoized instance that may be reused in multiple contexts simultaneously
 to minimize memory usage. And due to the cost of constructing objects the
 reuse of flyweights has the potential to speed up your code.
 
-MooseX::Role::Flyweight is a Moose role that enables your Moose class to
+MouseX::Role::Flyweight is a Mouse role that enables your Mouse class to
 automatically manage a cache of reusable instances. In other words, the class
 becomes its own flyweight factory.
 
 =head2 Flyweight v. Singleton
 
-MooseX::Role::Flyweight provides an C<instance()> method which looks similar
-to L<MooseX::Singleton>. This is in part because MooseX::Role::Flyweight
+MouseX::Role::Flyweight provides an C<instance()> method which looks similar
+to L<MooseX::Singleton>. This is in part because MouseX::Role::Flyweight
 departs from the original "Gang of Four" design pattern in that the role of
 the Flyweight Factory has been merged into the Flyweight class itself. But the
 choice of the method name was based on MooseX::Singleton.
 
-While MooseX::Role::Flyweight and MooseX::Singleton look similar, understanding
+While MouseX::Role::Flyweight and MooseX::Singleton look similar, understanding
 their intentions will highlight their differences:
 
 =begin :list
@@ -74,7 +74,7 @@ for construction, then you will need to call its C<initialize()> method.
 
 = Flyweight
 
-MooseX::Role::Flyweight is used to facilitate the reuse of objects to reduce
+MouseX::Role::Flyweight is used to facilitate the reuse of objects to reduce
 the cost of having many instances. The number of instances created will be
 reduced, but it does not set a limit on how many instances are allowed. Its
 C<instance()> method does accept construction arguments because it is
@@ -87,7 +87,7 @@ that it cannot reuse an existing one.
 
 use 5.006;
 use JSON 2.00 ();  # works with JSON::XS
-use Moose::Role;
+use Mouse::Role;
 use namespace::autoclean;
 use Scalar::Util ();
 
@@ -212,7 +212,7 @@ On the other hand, C<normalizer()> does not handle:
 
 * Unused construction parameters.
 
-You can use L<MooseX::StrictConstructor> to prevent this.
+You can use L<MouseX::StrictConstructor> to prevent this.
 
     # different objects with same values returned
     $obj1 = My::Flyweight->instance( attr => 'value' );
@@ -250,5 +250,7 @@ between MooseX::Role::Flyweight and MooseX::Singleton.
 L<Perl Design Patterns|http://www.perl.com/pub/2003/06/13/design1.html>
 
 L<Memoize>
+
+L<MooseX::Role::Singleton>
 
 =cut

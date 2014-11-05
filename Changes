@@ -1,4 +1,7 @@
-Revision history for MooseX-Role-Flyweight
+Revision history for MouseX-Role-Flyweight
+
+1.04    2014-11-05
+        Fork from MooseX::Role::Flyweight.
 
 1.03    2014-02-14
         Use a simple hash instead of MooseX::ClassAttribute.
