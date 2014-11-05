@@ -1,10 +1,9 @@
 package Flyweight::Test1;
 use Moose;
-
 with 'MooseX::Role::Flyweight';
 
-has 'id'    => ( is => 'ro', isa => 'Int', default => 0 );
-has 'value' => ( is => 'ro', isa => 'Str', default => '' );
+has id    => ( is => 'ro', isa => 'Int', default => 0 );
+has value => ( is => 'ro', isa => 'Str', default => '' );
 
 around BUILDARGS => sub {
     my $orig  = shift;

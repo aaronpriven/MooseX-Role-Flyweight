@@ -2,41 +2,41 @@ package Flyweight::Test3;
 use Moose;
 with 'MooseX::Role::Flyweight';
 
-has 'id' => (
+has id => (
     is       => 'ro',
     isa      => 'Int',
     required => 1,
 );
 
-has 'attr' => (
+has attr => (
     is      => 'ro',
     default => 1,
 );
 
-has '_init_attr' => (
+has _init_attr => (
     is       => 'ro',
     init_arg => 'init_attr',
     default  => 1,
 );
 
-has '_uninit_attr' => (
+has _uninit_attr => (
     is       => 'ro',
     init_arg => undef,
     default  => 1,
 );
 
-has '_private_attr' => (
+has _private_attr => (
     is      => 'rw',
     default => 1,
 );
 
-has '_lazy_attr' => (
+has _lazy_attr => (
     is      => 'ro',
     lazy    => 1,
     default => 1,
 );
 
-around 'normalizer' => sub {
+around normalizer => sub {
     my ( $orig, $class, $args ) = @_;
 
     # handle invalid attributes

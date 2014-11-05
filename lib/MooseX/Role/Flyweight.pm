@@ -14,30 +14,30 @@ Compose MooseX::Role::Flyweight into your Moose class.
     use Moose;
     with 'MooseX::Role::Flyweight';
 
-    has 'c' => (is => 'ro', required => 1);
+    has 'c' => ( is => 'ro', required => 1 );
 
     sub draw {
-        my ($self, $context) = @_;
+        my ( $self, $context ) = @_;
         ...
     }
 
     # Optional: override normalizer()
     sub normalizer {
-        my ($class, $init_args) = @_;
+        my ( $class, $init_args ) = @_;
         return $init_args->{c};
     }
 
 Get cached object instances by calling C<instance()> instead of C<new()>.
 
     # the same initialisation arguments produces the same object
-    $shared_object   = Glyph::Character->instance( %init_args );
-    $same_object     = Glyph::Character->instance( %init_args );
+    $shared_object   = Glyph::Character->instance(%init_args);
+    $same_object     = Glyph::Character->instance(%init_args);
 
     # different initialisation arguments produces a different object
-    $another_object  = Glyph::Character->instance( %diff_args );
+    $another_object  = Glyph::Character->instance(%diff_args);
 
     # new() still works but its objects are not shared
-    $unshared_object = Glyph::Character->new( %init_args );
+    $unshared_object = Glyph::Character->new(%init_args);
 
 =head1 DESCRIPTION
 
@@ -97,7 +97,7 @@ our %INSTANCES;
 
 =method instance
 
-    $instance = My::Flyweight->instance( %init_args );
+    $instance = My::Flyweight->instance(%init_args);
 
 This class method returns an instance that has been constructed from the given
 arguments. The first time it is called with a given set of arguments it will
@@ -133,7 +133,7 @@ sub instance {
 
 =method normalizer
 
-    $instance_identifier_string = My::Flyweight->normalizer( $init_args_hashref );
+    $instance_identifier_string = My::Flyweight->normalizer($init_args_hashref);
 
 This class method generates the keys used by C<instance()> to identify objects
 for storage and retrieval in the cache. It is passed the arguments used for
@@ -192,7 +192,7 @@ Factors to consider when determining equivalency:
 
     # same object is returned
     $obj1 = My::Flyweight->instance( attr => 'value' );
-    $obj2 = My::Flyweight->instance({attr => 'value'});
+    $obj2 = My::Flyweight->instance( { attr => 'value' } );
 
 * The order of named parameters does not affect equivalency.
 
